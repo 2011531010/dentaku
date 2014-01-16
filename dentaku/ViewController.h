@@ -34,6 +34,7 @@
 - (IBAction)pushedEightButton:(id)sender;
 - (IBAction)pushedNineButton:(id)sender;
 
+- (void)calcmethod;
 
 
 @end

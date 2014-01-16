@@ -13,8 +13,9 @@
 @end
 
 @implementation ViewController{
-    int value;
+    float value;
     int calcFlug;
+    
 }
 
 @synthesize buttonNumber;
@@ -38,7 +39,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)pushedClearButton:(id)sender {
+- (IBAction)pushedClearButton:(id)sender {  //オールクリア
     
     value = 0;
     self.countNumber = 0;
@@ -48,60 +49,89 @@
     [self labelOutput];
 }
 
-- (IBAction)pushedDividButton:(id)sender {
+- (IBAction)pushedDividButton:(id)sender {  //割り算
     
-    value /= self.countNumber;
+    if(calcFlug != 0){
+        [self calcmethod];
+    }
+    
+    value = [resultLabel.text intValue];
     self.countNumber = 0;
     calcFlug = 4;
-    NSLog(@"value:%d",value);
+    
 }
 
-- (IBAction)pushedMultiplyButton:(id)sender {
+- (IBAction)pushedMultiplyButton:(id)sender {  //かけ算
     
-    value *= self.countNumber;
+    if(calcFlug != 0){
+        [self calcmethod];
+    }
+    
+    value = [resultLabel.text intValue];
     self.countNumber = 0;
     calcFlug = 3;
-    NSLog(@"value:%d",value);
+    //NSLog(@"value:%d",value);
     
 }
 
-- (IBAction)pushedDeleatButton:(id)sender {
+- (IBAction)pushedDeleatButton:(id)sender {  //クリア
+    
+    resultLabel.text = [NSString stringWithFormat:@"%g", value];
+    
 }
 
-- (IBAction)pushedSubButton:(id)sender {
+- (IBAction)pushedSubButton:(id)sender {  //引き算
     
-    value -= self.countNumber;
+    if(calcFlug != 0){
+        [self calcmethod];
+    }
+    
+    value = [resultLabel.text intValue];
     self.countNumber = 0;
     calcFlug = 2;
-    NSLog(@"value:%d",value);
+    
 }
 
-- (IBAction)pushedSumButton:(id)sender {
+- (IBAction)pushedSumButton:(id)sender {  //足し算
     
-    value += self.countNumber;
+    if(calcFlug != 0){
+        [self calcmethod];
+    }
+    
+    value = [resultLabel.text intValue];
     self.countNumber = 0;
     calcFlug = 1;
-    NSLog(@"value:%d",value);
+    
 }
 
-- (IBAction)pushedEqualButton:(id)sender {
-    NSLog(@"value:%d",value);
+- (IBAction)pushedEqualButton:(id)sender {  //イコール
+    
+    [self calcmethod];
+    
+    
+    
+}
+
+- (void)calcmethod{
     switch (calcFlug) {
             
         case 1: //足し算
-            value += self.countNumber;
+            
+            value = value + [resultLabel.text floatValue];
             break;
             
         case 2: //引き算
-            value -= self.countNumber;
+            
+            value = value - [resultLabel.text floatValue];
             break;
             
         case 3: //かけ算
-            value *= self.countNumber;
+            value = value * [resultLabel.text floatValue];
             break;
             
         case 4: //割り算
-            value /= self.countNumber;
+            
+            value = value / [resultLabel.text floatValue];
             break;
             
         default:
@@ -109,15 +139,23 @@
     }
     
     
-    NSString *print = [[NSString alloc] initWithFormat:@"%d", value];
+    NSString *print = [[NSString alloc] initWithFormat:@"%g", value];
     resultLabel.text = print;
+    
+    calcFlug = 0;
+}
+
+
+- (IBAction)pushedPointButton:(id)sender {  //プラスマイナス
+ 
+    value = -[resultLabel.text intValue];
+    NSString *print = [[NSString alloc] initWithFormat:@"%g", value];
+    resultLabel.text = print;
+
     
 }
 
-- (IBAction)pushedPointButton:(id)sender {
-}
-
-- (IBAction)pushedZeroButton:(id)sender {
+- (IBAction)pushedZeroButton:(id)sender {  //以下数字の設定
     
     self.buttonNumber = 0;
     [self labelOutput];
@@ -194,7 +232,7 @@
 }
 
 
-- (void)labelOutput{
+- (void)labelOutput{ //数字の表示設定
     
     self.countNumber = (self.countNumber * 10) + self.buttonNumber;
     NSString *print = [[NSString alloc] initWithFormat:@"%d", self.countNumber];
@@ -202,9 +240,6 @@
     
 }
 
-
-- (IBAction)waru:(id)sender {
-}
 
 
 @end
